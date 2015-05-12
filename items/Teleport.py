@@ -18,11 +18,10 @@ class Teleport(Item):
 	def touch(self, origin):
 		"""The Teleport has been touched. The one who touched it will be moved."""
 		
-		self.env.disp_msg('@ ('+str(self.y)+', '+str(self.x)+')');
-		
 		dest = self.env.get_item_by_coordinates(self.dest_y, self.dest_x);
 		if isinstance(dest, Teleport):
 			#The destination Teleport exists
+			self.env.disp_msg('Teleport activated!');
 			(u, v) = self.dir_to_uv(dest.exit_direction);
 			origin.erase();
 			origin.y = dest.y+u;

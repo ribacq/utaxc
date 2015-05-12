@@ -15,4 +15,4 @@ class Sign(Item):
 	
 	def touch(self, origin):
 		"""The Sign has been touched. Its text will be displayed."""
-		self.env.disp_msg(self.text);
+		self.env.disp_msg('Sign says: '+self.text);

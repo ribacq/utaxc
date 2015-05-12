@@ -62,16 +62,19 @@ class Environment:
 		self.save.noutrefresh(0,0, 17,82, 18,98);
 		curses.doupdate();
 	
-	def disp_msg(self, msg):
+	def disp_msg(self, msg, numbering=False):
 		"""Displays a message in the text pad"""
 		msg = msg.strip('\r\n');
 		self.text.scroll();
-		self.text.addstr(1, 0, '00');
-		self.text.addnstr(1, 2-int(math.log(self.msg_i, 10)), str(self.msg_i)+'> '+msg, 80);
-		if self.msg_i == 999:
-			self.msg_i = 1;
+		if not numbering:
+			self.text.addnstr(1, 0, msg, 80);
 		else:
-			self.msg_i += 1;
+			self.text.addstr(1, 0, '00');
+			self.text.addnstr(1, 2-int(math.log(self.msg_i, 10)), str(self.msg_i)+'> '+msg, 80);
+			if self.msg_i == 999:
+				self.msg_i = 1;
+			else:
+				self.msg_i += 1;
 	
 	def add_item(self, item):
 		"""A new Item is created."""
