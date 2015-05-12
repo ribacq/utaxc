@@ -85,6 +85,11 @@ class Environment:
 		
 		return None;
 	
+	def exec_running_actions(self):
+		"""Executes the running actions for every item."""
+		for item in self.items:
+			item.exec_running_actions();
+	
 	def pause(self):
 		"""Pauses the game"""
 		

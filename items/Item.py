@@ -29,6 +29,27 @@ class Item(object):
 		
 		self.env.game.addstr(self.y, self.x, self.char, curses.color_pair(self.color_pair));
 	
+	def dir_to_uv(self, *directions):
+		"""Returns a (u, v) tuple with u and v of values -1, 0 or +1. directions elements must be 'up', 'down', 'left' or 'right'."""
+		
+		(u, v) = (0, 0);
+		
+		for direction in directions:
+			if direction == 'left':
+				#(u, v) when going left
+				v -= 1;
+			elif direction == 'up':
+				#(u, v) when going up
+				u -= 1;
+			elif direction == 'down':
+				#(u, v) when going down
+				u += 1;
+			elif direction == 'right':
+				#(u, v) when going right
+				v += 1;
+		
+		return (u, v);
+	
 	def touch(self, origin):
 		"""The Item has been touched by Item called origin."""
 		

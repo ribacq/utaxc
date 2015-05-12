@@ -46,7 +46,7 @@ def utaxc(scr):
 			break;
 		
 		#Execute running actions
-		player.exec_running_actions();
+		env.exec_running_actions();
 		
 		env.side.addnstr(1, 0, 'Score: '+str(player.score), 16);
 		env.side.addnstr(2, 0, 'Weight: '+str(player.weight)+'   ', 16);

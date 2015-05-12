@@ -95,11 +95,13 @@ class Player(Mobile):
 				self.weight *= -1;
 				self.del_running_action('jump');
 				return True;
-			elif block in '?':
+			elif block in 'T@':
 				#The block is an Item.
 				item = self.env.get_item_by_coordinates(self.y+u, self.x+v);
 				if item is not None:
 					item.touch(self);
+					return True;
+				return False;
 			else:
 				#No event happening
 				return False;

@@ -10,7 +10,7 @@ class Sign(Item):
 	
 	def __init__(self, env, y, x, text):
 		"""Constructor"""
-		super(Sign, self).__init__(env, y, x, '?', 2);
+		super(Sign, self).__init__(env, y, x, 'T', 2);
 		self.text = text;
 	
 	def touch(self, origin):
