@@ -1,7 +1,7 @@
 ################################################################################
                                                                                 
                                                                                 
-                                                                         @#    H
+                                                                         <#    H
                                                              H###G#########  # H
                                                                              # H
                                                                                H
@@ -9,14 +9,28 @@
                                                      # H            #$$$$$$$$$ H
                                                      # H           #           H
                                       H############### H          #            H
-                                      H#$                        #             H
-                                      H$$$                                      
-     T                                $$$$$                                     
-#########@######################################################################
-    Welcome message
+                                      H#$                 ########             H
+                                      H$$$                >                     
+I    T                                $$$$$               #                     
+#########^######################################################################
+
 . Préparez vous à entrer dans Xak Tsaroth !
+
     Sign
-T 13|5|Hello world!
+T 13|5
+T |Hello you! Here is a quick help to get you started.
+T |I: That's you!
+T |T: Sign (like this!)
+T |G: Gravity inverter
+T |H: Ladder
+T |$: Money (get all of it that you can!)
+T |<, ^, v, >: Teleports.
+T |The arrow indicates where you come out when you appear at the teleport,
+T |but you can never know at which teleport you will be sent!
+T |Have a nice game!
+T endsign
+
     Teleports
-@ 14|9|  |3|73|  |up
-@ 3|73|  |14|9|  |left
+^ 14|9|   |3|73
+< 3|73|   |12|58
+> 12|58|  |12|58

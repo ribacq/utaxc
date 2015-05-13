@@ -1,7 +1,7 @@
-#!/bin/python
+#!/bin/python3
 # -*-coding:utf-8 -*
 import curses;
-from Mobile import Mobile;
+from .Mobile import Mobile;
 
 """A module containing the Player class"""
 
@@ -48,7 +48,7 @@ class Player(Mobile):
 		"""The Player wants to do an action. num is 1 for main action and 2 for secondary action."""
 		if num == 1:
 			#Main action
-			self.env.disp_msg('Action 1');
+			self.env.disp_msg('Action 1', 'debug');
 		elif num == 2:
 			#Secondary action
 			if not self.block_event('action', 'right'):
@@ -80,7 +80,7 @@ class Player(Mobile):
 			#Automatic event, happens on touch
 			if block == '$':
 				#Money found
-				self.env.disp_msg('Money found!');
+				self.env.disp_msg('Money found!', 'debug');
 				self.score += 1;
 				self.env.game.addstr(self.y+u, self.x+v, ' ');
 				return False;
@@ -91,11 +91,11 @@ class Player(Mobile):
 			#Manual event, happens on trigger
 			if block == 'G':
 				#Gravity inversion
-				self.env.disp_msg('Gravity inversion!');
+				self.env.disp_msg('Gravity inversion!', 'debug');
 				self.weight *= -1;
 				self.del_running_action('jump');
 				return True;
-			elif block in 'T@':
+			elif block in 'T<^v>':
 				#The block is an Item.
 				item = self.env.get_item_by_coordinates(self.y+u, self.x+v);
 				if item is not None:

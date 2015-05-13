@@ -1,7 +1,7 @@
-#!/bin/python
+#!/bin/python3
 # -*-coding:utf-8 -*
 import curses;
-from Item import Item;
+from .Item import Item;
 
 """A module containing the Mobile class"""
 
@@ -19,15 +19,15 @@ class Mobile(Item):
 	
 	def move(self, direction):
 		"""
-		Moves and displays the Mobile in the game pad, from (y, x) to (y+u, x+v)
+		Moves and displays the Mobile in the game pad, in the specified direction.
 		-----
 		This method has to be implemented by each subclass.
 		"""
 		
-		raise NotImplementedError('Item object has no display method.');
+		raise NotImplementedError('Item object has no move method.');
 	
 	def make_move(self, *directions):
-		"""Moves the Mobile one cel in each of the specified directions, which must be 'up', 'down', 'left' or 'right'"""
+		"""Moves the Mobile one cell in each of the specified directions, which must be 'up', 'down', 'left' or 'right'"""
 		
 		for direction in directions:
 			(u, v) = self.dir_to_uv(direction);
@@ -51,7 +51,6 @@ class Mobile(Item):
 			if self.x > w-2:
 				self.x = w-2;
 			
-			#Display Mobile
 			self.env.save.addnstr(0, 0, '(y='+str(self.y)+', x='+str(self.x)+')       ', 17);
 	
 	def dir_to_uv(self, *directions):
@@ -83,7 +82,7 @@ class Mobile(Item):
 	def block_event(self, direction):
 		"""Acts upon the block the Player is colliding into. This method is called by self.make_move. Returns True if further move is forbidden. --- This method has to be implemented by each subclass."""
 		
-		raise NotImplementedError('Item object has no display method.');
+		raise NotImplementedError('Item object has no block_event method.');
 	
 	def ra_fall(self):
 		"""'fall' running action"""

@@ -1,14 +1,15 @@
-#!/bin/python
+#!/bin/python3
 # -*-coding:utf-8 -*
 import curses;
 import math;
+from . import controls;
 
 """A module containing the Environment class"""
 
 class Environment:
 	"""The Environment class"""
 	
-	def __init__(self, scr, frames_color, ctrls):
+	def __init__(self, scr, frames_color):
 		"""Constructor"""
 		
 		#Window and pads
@@ -25,9 +26,6 @@ class Environment:
 		
 		#Frames color
 		self.frames_color = frames_color;
-		
-		#Controls
-		self.ctrls = ctrls;
 		
 		#List of all Items
 		self.items = [];
@@ -62,13 +60,45 @@ class Environment:
 		self.save.noutrefresh(0,0, 17,82, 18,98);
 		curses.doupdate();
 	
-	def disp_msg(self, msg, numbering=False):
-		"""Displays a message in the text pad"""
-		msg = msg.strip('\r\n');
-		self.text.scroll();
-		if not numbering:
-			self.text.addnstr(1, 0, msg, 80);
-		else:
+	def disp_msg(self, msg, style):
+		"""Displays a message in the text pad. msg is the message to be displayed, style can be 'debug' or 'npc'. 'debug' numbers the messages and does not block the user, whereas 'npc' is an RPG-like message."""
+		if style == 'npc':
+			#npc: multiline (lines are automatically cut), pause before each scroll, text pad erased before and after display.
+			self.text.erase();
+			
+			#0: top line of text pad is being used; 1: bottom line
+			prints_on = 0;
+			
+			#If passed message is a string, it is converted into a list.
+			if isinstance(msg, str):
+				msg = [msg];
+			
+			#cut lines at 79 characters and removes trailing new lines.
+			lines = [line[0:79].strip('\r\n') for line in msg];
+			
+			for line in lines:
+				#Displays message and 'v' prompt
+				self.text.addstr(prints_on, 0, line);
+				self.text.addstr(1, 79, chr(controls.ctrlsPlayer['action2']), curses.color_pair(2));
+				self.refresh();
+				
+				#Prompt
+				entry = '';
+				while entry != controls.ctrlsPlayer['action2'] and (prints_on == 1 or len(lines) == 1):
+					entry = self.getch();
+				
+				#Scrolling and line choice
+				if prints_on == 0:
+					prints_on = 1;
+				else:
+					self.text.scroll();
+					self.text.addstr(0, 79, ' ');
+			
+			self.text.erase();
+		elif style == 'debug':
+			#debug: one line, no pause, messages showed after scrolling.
+			msg = msg.strip('\r\n');
+			self.text.scroll();
 			self.text.addstr(1, 0, '00');
 			self.text.addnstr(1, 2-int(math.log(self.msg_i, 10)), str(self.msg_i)+'> '+msg, 80);
 			if self.msg_i == 999:
@@ -94,20 +124,11 @@ class Environment:
 			item.exec_running_actions();
 	
 	def pause(self):
-		"""Pauses the game"""
-		
-		self.disp_msg('Pause...');
-		self.refresh();
-		
-		c = '';
-		while c != self.ctrls['pause']:
-			c = self.getch();
-		
-		self.disp_msg('Let\'s play!');
-		self.refresh();
+		"""Pauses the game. This has to be improved."""
+		self.disp_msg('Pause...', 'npc');
 	
 	def getch(self):
-		"""A getch equivalent working with the halfdelay mode"""
+		"""A getch equivalent working with the halfdelay mode. The return value is of type int."""
 		try:
 			return self.scr.getch();
 		except Exception:

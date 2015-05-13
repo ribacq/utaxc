@@ -1,4 +1,4 @@
-#!/bin/python
+#!/bin/python3
 # -*-coding:utf-8 -*
 import curses;
 
@@ -53,7 +53,7 @@ class Item(object):
 	def touch(self, origin):
 		"""The Item has been touched by Item called origin."""
 		
-		raise NotImplementedError('Item object has no display method.');
+		raise NotImplementedError('Item object has no touch method.');
 	
 	def add_running_action(self, name):
 		"""Adds a running action"""

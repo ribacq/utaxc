@@ -1,4 +1,4 @@
-#!/bin/python
+#!/bin/python3
 # -*-coding:utf-8 -*
 
 """
@@ -13,7 +13,9 @@ Other files:
  - colors.py
 """
 
-from Environment import Environment;
-from Level import Level;
-from controls import *;
-from colors import *;
+__all__ = ['Environment', 'Level', 'controls', 'colors'];
+
+from .Environment import Environment;
+from .Level import Level;
+from .controls import *;
+from .colors import *;

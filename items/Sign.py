@@ -1,7 +1,7 @@
-#!/bin/python
+#!/bin/python3
 # -*-coding:utf-8 -*
 import curses;
-from Item import Item;
+from .Item import Item;
 
 """A module containing the Sign class."""
 
@@ -14,5 +14,6 @@ class Sign(Item):
 		self.text = text;
 	
 	def touch(self, origin):
-		"""The Sign has been touched. Its text will be displayed."""
-		self.env.disp_msg('Sign says: '+self.text);
+		"""The Sign has been touched. If it is by the Player, its text will be displayed."""
+		if isinstance(origin, Player):
+			self.env.disp_msg(self.text, 'npc');
