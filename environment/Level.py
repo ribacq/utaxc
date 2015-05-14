@@ -29,7 +29,7 @@ class Level(object):
 		self.lines = [];
 		with open(levels_path+self.name+'.lvl', 'r') as f:
 			self.lines = [line.strip('\r\n') for line in f];
-			self.lines = [line[0:80] for line in self.lines if len(line) > 0];
+			self.lines = [line for line in self.lines if len(line) > 0];
 	
 	def load(self):
 		"""Displays the level on screen and creates Items present in it."""
@@ -39,7 +39,7 @@ class Level(object):
 		
 		#Line by line read of the level
 		for i in range(15):
-			for j in range(len(self.lines[i])):
+			for j in range(80):
 				char = self.lines[i][j];
 				if char == 'I':
 					#Player starting point
@@ -63,9 +63,7 @@ class Level(object):
 		#The current* variables are used to store temporary data in this case.
 		current_class = None.__class__;
 		current_info = [];
-		welcome_msg = [];
-		for i in range(15, len(self.lines)):
-			line = self.lines[i];
+		for line in self.lines[15:]:
 			line = line.strip('\r\n');
 			if line[0] in todo:
 				#The character has been read in the level
@@ -87,7 +85,21 @@ class Level(object):
 						#The Sign has already begun, text will be added or the sign will end.
 						if linespt[0] == '':
 							#Text is added.
-							current_info.append(linespt[1]);
+							txt = '';
+							attr = '';
+							while len(linespt) > 0:
+								if txt == '':
+									txt = linespt[0];
+									del linespt[0];
+								else:
+									attr = linespt[0];
+									del linespt[0];
+									current_info.append((txt, attr));
+									txt = '';
+									attr = '';
+							if txt != '' and attr == '':
+								current_info.append((txt, ''));
+							current_info.append(('\n', ''));
 						else:
 							#End of sign declaration, creation of the Sign instance
 							items.Sign(self.env, current_info[0], current_info[1], current_info[2:]);
@@ -109,8 +121,6 @@ class Level(object):
 					current_info = line[2:].split('|');
 					items.Teleport(self.env, int(current_info[0]), int(current_info[1]), int(current_info[3]), int(current_info[4]), exit_direction);
 					todo.remove(line[0]);
-			elif line[0] == '.':
-				#Welcome message for the level.
-				welcome_msg.append(line[2:]);
-		
-		self.env.disp_msg(welcome_msg, 'npc');
+			elif line[0] == ' ':
+				#Message displayed during level loading, debug style only.
+				self.env.disp_msg(line[2:], 'debug');

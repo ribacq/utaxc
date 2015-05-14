@@ -17,11 +17,11 @@ class Environment:
 		self.scr.scrollok(1);
 		self.game = curses.newpad(15, 81);
 		self.game.scrollok(1);
-		self.text = curses.newpad(2, 81);
-		self.text.scrollok(1);
 		self.side = curses.newpad(15, 17);
 		self.side.scrollok(1);
-		self.save = curses.newpad(2, 17);
+		self.text = curses.newpad(3, 81);
+		self.text.scrollok(1);
+		self.save = curses.newpad(3, 17);
 		self.save.scrollok(1);
 		
 		#Frames color
@@ -37,12 +37,12 @@ class Environment:
 		#Frames
 		bord = '+' + '-'*80 + '+' + '-'*17 + '+';
 		self.scr.addstr(0, 0, bord, curses.color_pair(self.frames_color));
-		for i in range(1, 19):
+		for i in range(1, 20):
 			self.scr.addstr(i,0, '|', curses.color_pair(self.frames_color));
 			self.scr.addstr(i,81, '|', curses.color_pair(self.frames_color));
 			self.scr.addstr(i,99, '|', curses.color_pair(self.frames_color));
 		self.scr.addstr(16,0, bord, curses.color_pair(self.frames_color));
-		self.scr.addstr(19,0, bord, curses.color_pair(self.frames_color));
+		self.scr.addstr(20,0, bord, curses.color_pair(self.frames_color));
 		self.refresh();
 	
 	def refresh(self):
@@ -55,9 +55,9 @@ class Environment:
 		#Windows and pads
 		self.scr.noutrefresh();
 		self.game.noutrefresh(0,0, 1,1, 15,80);
-		self.text.noutrefresh(0,0, 17,1, 18,80);
 		self.side.noutrefresh(0,0, 1,82, 15,98);
-		self.save.noutrefresh(0,0, 17,82, 18,98);
+		self.text.noutrefresh(0,0, 17,1, 19,80);
+		self.save.noutrefresh(0,0, 17,82, 19,98);
 		curses.doupdate();
 	
 	def disp_msg(self, msg, style):
@@ -66,41 +66,60 @@ class Environment:
 			#npc: multiline (lines are automatically cut), pause before each scroll, text pad erased before and after display.
 			self.text.erase();
 			
-			#0: top line of text pad is being used; 1: bottom line
-			prints_on = 0;
+			#Last line is being used.
+			last = False;
 			
-			#If passed message is a string, it is converted into a list.
+			#If passed message is a string, it is converted into a list of (txt, attr) tuples.
 			if isinstance(msg, str):
-				msg = [msg];
+				msg = [(msg, '')];
 			
-			#cut lines at 79 characters and removes trailing new lines.
-			lines = [line[0:79].strip('\r\n') for line in msg];
-			
-			for line in lines:
-				#Displays message and 'v' prompt
-				self.text.addstr(prints_on, 0, line);
-				self.text.addstr(1, 79, chr(controls.ctrlsPlayer['action2']), curses.color_pair(2));
-				self.refresh();
+			for i, (txt, attr) in enumerate(msg):
+				#txt is the text to display, attr are the attributes
+				#attr format: 'c,s', where c is a color_pair number (int) and s a character that can be ommited or be, 'b' for 'bold' and 'r' for 'reverse'.
 				
-				#Prompt
-				entry = '';
-				while entry != controls.ctrlsPlayer['action2'] and (prints_on == 1 or len(lines) == 1):
-					entry = self.getch();
+				#Text is cut at 79 characters.
+				txt = txt[0:79];
 				
-				#Scrolling and line choice
-				if prints_on == 0:
-					prints_on = 1;
-				else:
-					self.text.scroll();
-					self.text.addstr(0, 79, ' ');
+				#Attribute reading
+				used_attr = curses.color_pair(0);
+				attr = attr.split(',');
+				if attr[0].isnumeric():
+					#Color
+					used_attr = curses.color_pair(int(attr[0]));
+					del attr[0];
+				
+				if len(attr) > 0:
+					#Bold or reverse
+					if attr[0] == 'b':
+						used_attr = used_attr | curses.A_BOLD;
+					elif attr[0] == 'r':
+						used_attr = used_attr | curses.A_REVERSE;
+				
+				#Displays message if the text is not a newline on the second line. If it's a newline on the first line, it is not displayed and its value is changed to '' (empty string);
+				if txt != '\n' or not last:
+					self.text.addstr(txt, used_attr);
+					if txt == '\n' and not last:
+						txt = '';
+				
+				last = bool(self.text.getyx()[0] == 2);
+				
+				#Prompt if the message is fully displayed, or the two lines have been used.
+				if i == len(msg)-1 or (txt == '\n' and last):
+					last = False;
+					self.text.addstr(2, 79, chr(controls.ctrlsPlayer['action2']), curses.color_pair(2));
+					self.refresh();
+					entry = '';
+					while entry != controls.ctrlsPlayer['action2']:
+						entry = self.getch();
+					self.text.erase();
 			
 			self.text.erase();
 		elif style == 'debug':
 			#debug: one line, no pause, messages showed after scrolling.
 			msg = msg.strip('\r\n');
 			self.text.scroll();
-			self.text.addstr(1, 0, '00');
-			self.text.addnstr(1, 2-int(math.log(self.msg_i, 10)), str(self.msg_i)+'> '+msg, 80);
+			self.text.addstr(2, 0, '00');
+			self.text.addnstr(2, 2-int(math.log(self.msg_i, 10)), str(self.msg_i)+'> '+msg, 80);
 			if self.msg_i == 999:
 				self.msg_i = 1;
 			else:

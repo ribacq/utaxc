@@ -2,6 +2,7 @@
 # -*-coding:utf-8 -*
 import curses;
 from .Item import Item;
+from .Player import Player;
 
 """A module containing the Sign class."""
 
