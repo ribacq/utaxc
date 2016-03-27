@@ -6,7 +6,7 @@ import curses;
 
 ctrlsEnv = {\
 	'pause':ord('0'),\
-	'quit':curses.KEY_END\
+	'quit':ord('q')\
 }
 
 ctrlsPlayer = {\
@@ -15,5 +15,5 @@ ctrlsPlayer = {\
 	'left':curses.KEY_LEFT,\
 	'right':curses.KEY_RIGHT,\
 	'action1':ord(' '),\
-	'action2':ord('c'),\
+	'action2':ord('e')\
 }

@@ -74,10 +74,12 @@ class Item(object):
 		"""Executes the running actions"""
 		
 		for name in self.running_actions:
-			self.env.save.addnstr(1, 0, name+' '*42, 16);
-			if 'ra_'+name in self.__class__.__dict__:
-				#Search it in self
-				self.__class__.__dict__['ra_'+name](self);
-			elif 'ra_'+name in self.__class__.__bases__[0].__dict__:
-				#Search it in parent class
-				self.__class__.__bases__[0].__dict__['ra_'+name](self);
+			if name in self.possible_running_actions:
+				self.env.save.addnstr(1, 0, name+' '*42, 16);
+				self.exec_running_action(name);
+	
+	def exec_running_action(self, name):
+		"""Executes a specific running action, which name is given as an argument"""
+		
+		if name in self.running_actions and name in self.possible_running_actions:
+			getattr(self, 'ra_'+name)();

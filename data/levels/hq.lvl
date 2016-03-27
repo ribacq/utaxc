@@ -2,7 +2,7 @@
                                                                                 
                                                                                 
                                                                          <#    H
-                                                             H###G#########  # H
+                                                             H###%#########  # H
                                                                              # H
                                                                                H
                                                        H##########   ######### H
@@ -18,11 +18,11 @@ TI                                    $$$$$               #
 T 13|0
 T |Hello you!|b|
 T |Here is a quick help to get you started.
-T |Use '||c|b|' to read this sign.
+T |Use ||[SPACE]|b| to read this sign.
 
 T |Use the ||arrow keys|b| to move and jump.
-T |[SPACE]|b| is your main action, '||c|b|' your secondary action.
-T |'||0|b|' Pauses the game, and ||[END]|b|... ends it.
+T |[SPACE]|b| is your main action, '||E|b|' your secondary action.
+T |'||0|b|' Pauses the game, and ||Q|b|... ends it.
 
 T |
 T |Here are short descriptions of the blocks that you can see.
@@ -32,7 +32,7 @@ T |I|4|: That's you!
 T |T|2|: Sign (like this!)
 T |$|6|: Money (get all of it that you can!)
 
-T |G|1|: Gravity inverter
+T |%|1|: Gravity inverter
 T |H|1|: Ladder
 T |<|1|, ||^|1|, ||v|1|, ||>|1|: Teleports.
 
@@ -51,4 +51,4 @@ T endsign
 > 12|58| |12|58
 
   Préparez vous à entrer dans Xak Tsaroth !
-  Press 'c' now!
+  Press [SPACE] now!

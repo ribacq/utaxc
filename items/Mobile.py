@@ -13,7 +13,7 @@ class Mobile(Item):
 		
 		super(Mobile, self).__init__(env, y, x, char, color_pair);
 		self.weight = weight;
-		self.possible_running_actions = ['fall', 'jump'];
+		self.possible_running_actions.extend(['fall', 'jump']);
 		self.jump_phase = 0;
 		self.jump_height = 3;
 	
@@ -35,7 +35,7 @@ class Mobile(Item):
 			#Erase Mobile
 			self.erase();
 			
-			#The mobile moves only if no event has occured which prevent the it from moving (i.e. the move is done in block_event or move is not possible).
+			#The mobile moves only if no event has occured which prevent it from moving (i.e. the move is done in block_event or is not possible).
 			if not self.block_event('make_move', direction) and not self.collision(direction):
 				self.y += u;
 				self.x += v;
@@ -96,11 +96,11 @@ class Mobile(Item):
 	
 	def ra_jump(self):
 		"""'jump' running action"""
-		if self.jump_phase in range(self.jump_height) and not self.collision('up'):
+		if self.jump_phase < self.jump_height and not self.collision('up'):
 			#First half: ascencion
 			self.make_move('up', 'up');
 			self.jump_phase += 1;
-		elif self.collision('down'):
+		elif self.collision('down') or self.collision('up'):
 			#Second half: fall
 			self.jump_phase = 0;
 			self.del_running_action('jump');

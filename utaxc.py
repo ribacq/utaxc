@@ -33,7 +33,7 @@ def utaxc(scr):
 		#Get user action
 		entry = env.getch();
 		if entry in controls.ctrlsPlayer.values():
-			action = [action for action, ctrl in controls.ctrlsPlayer.items() if ctrl == entry];
+			action = [action for (action, ctrl) in controls.ctrlsPlayer.items() if ctrl == entry];
 			player.kbd_entry(action[0]);
 		elif entry == controls.ctrlsEnv['pause']:
 			env.pause();

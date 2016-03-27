@@ -106,10 +106,10 @@ class Environment:
 				#Prompt if the message is fully displayed, or the two lines have been used.
 				if i == len(msg)-1 or (txt == '\n' and last):
 					last = False;
-					self.text.addstr(2, 79, chr(controls.ctrlsPlayer['action2']), curses.color_pair(2));
+					self.text.addstr(2, 79, chr(controls.ctrlsPlayer['action1']), curses.color_pair(2));
 					self.refresh();
 					entry = '';
-					while entry != controls.ctrlsPlayer['action2']:
+					while entry != controls.ctrlsPlayer['action1']:
 						entry = self.getch();
 					self.text.erase();
 			

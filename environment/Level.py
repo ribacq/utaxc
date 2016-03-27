@@ -51,7 +51,7 @@ class Level(object):
 				elif char in '$':
 					#Treasure block
 					self.env.game.addstr(i, j, '$', curses.color_pair(6));
-				elif char in 'HG':
+				elif char in 'H%':
 					#Movement block
 					self.env.game.addstr(i, j, char, curses.color_pair(1));
 				elif char in 'T<^v>':
