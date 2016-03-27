@@ -57,6 +57,7 @@ docs/_build/
 # PyBuilder
 target/
 
-# Kate project files
+# Kate files
 .kateproject
 .kateproject.d/
+.*.kate-swp

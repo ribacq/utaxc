@@ -13,3 +13,4 @@ def load_colors():
 	curses.init_pair(4, 6, 0); #4> Player
 	curses.init_pair(5, 3, 3); #5> Standard block
 	curses.init_pair(6, 2, 0); #6> Treasure
+	curses.init_pair(7, 1, 0); #7> Monster

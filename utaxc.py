@@ -28,6 +28,9 @@ def utaxc(scr):
 	#Creation of the player
 	player = Player(env, lvl.player_y, lvl.player_x);
 	
+	#Monsters
+	monster = Monster(env, 6, 60, 'Ḉ');
+	
 	#Main loop
 	while True:
 		#Get user action

@@ -9,7 +9,7 @@ ctrlsEnv = {\
 	'quit':ord('q')\
 }
 
-ctrlsPlayer = {\
+ctrlsPlayerArrows = {\
 	'up':curses.KEY_UP,\
 	'down':curses.KEY_DOWN,\
 	'left':curses.KEY_LEFT,\
@@ -17,3 +17,14 @@ ctrlsPlayer = {\
 	'action1':ord(' '),\
 	'action2':ord('e')\
 }
+
+ctrlsPlayerTSRN = {\
+	'up':ord('s'),\
+	'down':ord('r'),\
+	'left':ord('t'),\
+	'right':ord('n'),\
+	'action1':ord(' '),\
+	'action2':ord('e')\
+}
+
+ctrlsPlayer = ctrlsPlayerTSRN;

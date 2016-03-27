@@ -55,12 +55,6 @@ class Item(object):
 		
 		raise NotImplementedError('Item object has no touch method.');
 	
-	def make_possible_running_action(self, ra):
-		"""Method decorator that allows a method to be a running action. Its name must begin by 'ra_'."""
-		if ra.__name__[0:3] == 'ra_':
-			self.possible_running_actions.append(ra.__name__[3:]);
-		return ra;
-	
 	def add_running_action(self, name):
 		"""Adds a running action"""
 		

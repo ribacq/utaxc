@@ -11,7 +11,7 @@ class Player(Creature):
 	def __init__(self, env, y, x):
 		"""Constructor"""
 		
-		super(Player, self).__init__(env, y, x, 'I', 4, 1);
+		super(Player, self).__init__(env, y, x, 'ſ', 4, 1);
 		self.score = 0;
 		self.possible_running_actions.extend([]);
 	
